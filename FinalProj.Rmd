@@ -1,0 +1,10 @@
+---
+title: "Beak"
+author: "Karim Dahr, Brendan Fox, Tingwei Hu, Joseph Milosh"
+date: "2022-12-09"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
