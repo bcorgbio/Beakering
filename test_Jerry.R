@@ -17,4 +17,4 @@ fam_diet <- what %>%
 fam_diet %>% 
   group_by(Family3) %>% 
   summarise()
-
+  
