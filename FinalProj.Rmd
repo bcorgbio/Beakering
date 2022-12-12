@@ -3,13 +3,18 @@ title: "Beak"
 author: "Karim Dahr, Brendan Fox, Tingwei Hu, Joseph Milosh"
 date: "2022-12-09"
 output: html_document
+bibiography: Beakering.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
+```{r, include=FALSE}
+library(tidyverse)
+library(knitr)
+library(Momocs)
+```
 # Introduction
 
 
@@ -31,7 +36,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # Author Contributions
-
-
+Karim Dahr: 
+Brendan Fox:
+Tingwei Hu:
+Joseph Milosh: 
 
 # References
