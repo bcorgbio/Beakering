@@ -26,9 +26,7 @@ data.norm$bsize.bodymass.ratio
 
 ggplot(data.norm, aes(x = Trophic.Level, y = bsize.bodymass.ratio, color = Trophic.Level)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  coord_cartesian(ylim = c(quantile(Beak.Size.Body.Mass$bsize.bodymass.ratio
-  , 0.5), quantile(Beak.Size.Body.Mass$bsize.bodymass.ratio
-  , 0.999)))
+  coord_cartesian(ylim = c(quantile(data.norm$bsize.bodymass.ratio, 0.5), quantile(data.norm$bsize.bodymass.ratio, 0.979)))
 
 ggplot(data.norm, aes(x = w.l.ratio, y = Mass, color = Trophic.Level, type="n")) +
   geom_point() + geom_smooth(method="lm")+
@@ -50,13 +48,14 @@ head(data)
 colnames(data)
 
 data.norm <- data.norm %>% 
-  mutate(beak.volume = ((Beak.Length_Culmen*Beak.Depth*Beak.Width)/3)) 
+  mutate(beak.volume = Beak.Length_Culmen*Beak.Depth*Beak.Width*0.3) 
 data.norm$beak.volume
 
 ggplot(data.norm, aes(x = Mass, y = beak.volume, color = Trophic.Level, type="n")) +
   geom_point() + geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
-  scale_x_continuous(trans='log10') 
+  scale_x_continuous(trans='log10')+
+  geom_point(na.rm = TRUE)
 
 
 
