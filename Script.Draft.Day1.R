@@ -18,7 +18,7 @@ data.norm$w.l.ratio
 
 
 
-data.updated <- data[!is.na(data$Trophic.Level),]
+data.updated <- data.norm[!is.na(data$Trophic.Level),]
 # Perform analysis on the beak measurement
 ggplot(data.updated, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level, type = "n")) +
   geom_smooth(method="lm")+
@@ -76,13 +76,10 @@ data
 
 
 #Width vs. Trophic Level
-ggplot(data, 
-       aes(x = Beak.Width, 
-           y = Trophic.Level, 
-           color = Trophic.Level)) +
+ggplot(data.updated,aes(x = Beak.Width, y = Trophic.Level, color = Trophic.Level)) +
   geom_smooth(method="lm")
 #Length vs. Trophic Level
-ggplot(data, aes(x = Beak.Length_Culmen, y = Trophic.Level, color = Trophic.Level)) +
+ggplot(data.updated, aes(x = Beak.Length_Culmen, y = Trophic.Level, color = Trophic.Level)) +
   geom_smooth(method="lm")
 
 #I think we should maybe try to normalize at least the length compared to tail lengths or something
