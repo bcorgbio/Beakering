@@ -1,7 +1,13 @@
+#--------------
+# LOAD PACKAGES
+#--------------
 library(tidyverse)
 library(factoextra)
 library(ggplot2)
 library(Momocs)
+library(scatterplot3d)
+library(viridis)
+library(RColorBrewer)
 
 # Load data on bird beak measurements and diets
 data <- read_csv("AVONETdata_BirdTree_Pigot2020.csv") 
@@ -37,25 +43,50 @@ ggplot(data.norm, aes(x = w.l.ratio, y = Mass, color = Trophic.Level, type="n"))
 data
 
 
+# 
+# Don't have volume rn... 
+# 
+# ggplot(data.norm, aes(x = w.l.ratio, y = beak.volume, color = Trophic.Level, type="n")) +
+#   geom_point() + geom_smooth(method="lm")+
+#   scale_y_continuous(trans='log10')+
+#   scale_x_continuous(trans='log10') 
+#   
+# 
+# 
+# colnames(data.norm)
+# head(data)
+# colnames(data)
+# 
+# data.norm <- data.norm %>% 
+#   mutate(beak.volume = Beak.Length_Culmen*Beak.Depth*Beak.Width*0.3) 
+# data.norm$beak.volume
+# 
+# #Volume and Mass
+# ggplot(data.norm, aes(x = Mass, y = beak.volume, color = Trophic.Level, type="n")) +
+#   geom_point() + geom_smooth(method="lm")+
+#   scale_y_continuous(trans='log10')+
+#   scale_x_continuous(trans='log10')+
+#   geom_point(na.rm = TRUE)
 
-ggplot(data.norm, aes(x = w.l.ratio, y = beak.volume, color = Trophic.Level, type="n")) +
-  geom_point() + geom_smooth(method="lm")+
-  scale_y_continuous(trans='log10')+
-  scale_x_continuous(trans='log10') 
-
-colnames(data.norm)
-head(data)
-colnames(data)
-
-data.norm <- data.norm %>% 
-  mutate(beak.volume = Beak.Length_Culmen*Beak.Depth*Beak.Width*0.3) 
-data.norm$beak.volume
-
-ggplot(data.norm, aes(x = Mass, y = beak.volume, color = Trophic.Level, type="n")) +
-  geom_point() + geom_smooth(method="lm")+
-  scale_y_continuous(trans='log10')+
-  scale_x_continuous(trans='log10')+
-  geom_point(na.rm = TRUE)
 
 
 
+#Width vs. Trophic Level
+ggplot(data, aes(x = Beak.Width, y = Trophic.Level, color = Trophic.Level)) +
+  geom_point() + geom_smooth(method="lm")
+#Length vs. Trophic Level
+ggplot(data, aes(x = Beak.Length_Culmen, y = Trophic.Level, color = Trophic.Level)) +
+  geom_point() + geom_smooth(method="lm")
+
+#I think we should maybe try to normalize at least the length compared to tail lengths or something
+
+unique(data$Habitat.Density)
+
+#Three-dimensional scatter plot using the scatterplot3d() function
+scatterplot3d(x = data.norm$Beak.Length_Culmen, y = data.norm$Mass, z = data.norm$Beak.Width)
+# plot(df, type="n") + # suppress the plotting of the individual points
+# lines(df)  # plot the best fit lines
+
+ 
+#  stat_density2d(aes(fill = ..density..), geom = 'tile', contour = F) +
+#  scale_fill_distiller(palette = 'RdYlBu')
