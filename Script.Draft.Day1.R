@@ -16,11 +16,15 @@ data.norm <- data %>%
   mutate(w.l.ratio = Beak.Length_Culmen / Beak.Width)
 data.norm$w.l.ratio
 
-# Perform PCA on the beak measurement
-ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level)) +
-  geom_point() + geom_smooth(method="lm")+
+
+
+data.updated <- data[!is.na(data$Trophic.Level),]
+# Perform analysis on the beak measurement
+ggplot(data.updated, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level, type = "n")) +
+  geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
   scale_x_continuous(trans='log10')
+
 
 ggplot(data.norm, aes(x = Trophic.Niche, y = w.l.ratio, color = Trophic.Niche)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
@@ -72,11 +76,14 @@ data
 
 
 #Width vs. Trophic Level
-ggplot(data, aes(x = Beak.Width, y = Trophic.Level, color = Trophic.Level)) +
-  geom_point() + geom_smooth(method="lm")
+ggplot(data, 
+       aes(x = Beak.Width, 
+           y = Trophic.Level, 
+           color = Trophic.Level)) +
+  geom_smooth(method="lm")
 #Length vs. Trophic Level
 ggplot(data, aes(x = Beak.Length_Culmen, y = Trophic.Level, color = Trophic.Level)) +
-  geom_point() + geom_smooth(method="lm")
+  geom_smooth(method="lm")
 
 #I think we should maybe try to normalize at least the length compared to tail lengths or something
 
