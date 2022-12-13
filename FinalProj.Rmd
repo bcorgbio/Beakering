@@ -34,12 +34,13 @@ data.ori <- read_csv("AVONETdata_BirdTree_Pigot2020.csv")
 #removed any rows where Trophic.Level or Trophic.Niche has N/A value
 data.tmp <- data.ori[!is.na(data.ori$Trophic.Level),]
 data <- data.tmp[!is.na(data.tmp$Trophic.Niche),]
+
 ```
 
 ```{r, normalized ratios & log transform relevant columns}
 data.norm <- data %>% 
-  mutate(w.l.ratio = Beak.Width/Beak.Length_Culmen) %>% 
-  mutate(bsize.bodymass.ratio = w.l.ratio / Mass) %>% #beak wl ratio/body mass
+  mutate(l.w.ratio = Beak.Width/Beak.Length_Culmen) %>% 
+  mutate(bsize.bodymass.ratio = l.w.ratio / Mass) %>% #beak lw ratio/body mass
   mutate(l.log = log10(data$Beak.Length_Culmen)) %>% 
   mutate(w.log = log10(data$Beak.Width)) %>% 
   mutate(mass.log = log10(data$Mass)) #body mass
@@ -47,6 +48,16 @@ data.norm <- data %>%
 
 # Results
 
+
+```{r, fig.cap= "Figure on Habitats____"}
+data.norm <- data %>% 
+  mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width)
+data.norm$l.w.ratio
+
+ggplot(data.norm, mapping = aes(x = l.w.ratio, y = Trophic.Niche, color = Trophic.Level)) +
+  geom_point() +
+  facet_wrap(~Habitat)
+```
 
 ```{r, fig.cap="Figure 1: Relationship of Beak Width to Beak Length Separated by Trophic Level"}
 ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level)) +
@@ -56,9 +67,9 @@ ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level))
 ```
 
 ```{r, fig.cap="Figure 2: "}
-ggplot(data.norm, aes(x = Trophic.Niche, y = w.l.ratio, color = Trophic.Niche)) +
+ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  coord_cartesian(ylim = c(quantile(data.norm$w.l.ratio, 0.0), quantile(data.norm$w.l.ratio, 0.999)))
+  coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
 ```
 
 ```{r, fig.cap="Figure 3: "}
@@ -94,6 +105,8 @@ ggplot(data.norm, aes(x = w.l.ratio, y = Mass, color = Trophic.Level, type="n"))
   scale_x_continuous(trans='log10') 
 ```
 Can see here that the shape of a beak does not appear to have a strong positive or negative correlation with respect to bird mass across species. This likely means that bird mass does not have a large impact on beak shape.
+
+
 
 
 
