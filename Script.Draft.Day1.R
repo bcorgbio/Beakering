@@ -46,12 +46,12 @@ ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) 
 #Mutated the df again, this time adding a body size to l/w ratio column 
 data.updated2 <- data.updated %>% 
   mutate(bsize.bodymass.ratio = l.w.ratio / Mass)
-  data.updated$bsize.bodymass.ratio
+data.updated2$bsize.bodymass.ratio
 
 #Plot of the new body size to mass ratio separated by color and log transformed
-ggplot(data.updated, aes(x = Trophic.Level, y = bsize.bodymass.ratio, color = Trophic.Level)) +
+ggplot(data.updated2, aes(x = Trophic.Level, y = bsize.bodymass.ratio, color = Trophic.Level)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  coord_cartesian(ylim = c(quantile(data.updated$bsize.bodymass.ratio, 0.5), quantile(data.updated$bsize.bodymass.ratio, 0.979)))
+  coord_cartesian(ylim = c(quantile(data.updated2$bsize.bodymass.ratio, 0.5), quantile(data.updated2$bsize.bodymass.ratio, 0.979)))
  
 
 
@@ -65,10 +65,10 @@ ggplot(data.updated2, aes(x = l.w.ratio, y = Mass, color = Trophic.Level, type="
 
 #log transformed culmen length, beak width, and body mass; 
 #then generate l/w ratio & l.w/bodymass ratio using log transformed values
-data.log <- data.updated %>% 
-  mutate(l.log = log10(data.updated$Beak.Length_Culmen)) %>% 
-  mutate(w.log = log10(data.updated$Beak.Width)) %>% 
-  mutate(mass.log = log10(data.updated$Mass)) %>% 
+data.log <- data.updated2 %>% 
+  mutate(l.log = log10(data.updated2$Beak.Length_Culmen)) %>% 
+  mutate(w.log = log10(data.updated2$Beak.Width)) %>% 
+  mutate(mass.log = log10(data.updated2$Mass)) %>% 
   mutate(l.w.log = l.log/w.log) %>% 
   mutate(lw.mass.log = l.w.log/mass.log)
 
@@ -76,9 +76,9 @@ ggplot(data.log, aes(x = Trophic.Niche, y = l.w.log, color = Trophic.Level)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.9)))
 
-ggplot(data.updated, aes(x = Trophic.Level, y = bsize.bmass.ratio, color = Trophic.Level)) +
+ggplot(data.updated2, aes(x = Trophic.Level, y = bsize.bmass.ratio, color = Trophic.Level)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  coord_cartesian(ylim = c(quantile(data.updated$bsize.bodymass.ratio, 0.0), quantile(data.updated$bsize.bodymass.ratio, 0.979)))
+  coord_cartesian(ylim = c(quantile(data.updated2$bsize.bodymass.ratio, 0.0), quantile(data.updated2$bsize.bodymass.ratio, 0.979)))
 
 
 # beak length = height of pyramid, beak depth = length of side, beak width = width of pyramid
@@ -114,10 +114,10 @@ ggplot(data.updated, aes(x = Trophic.Level, y = bsize.bmass.ratio, color = Troph
 
 
 #Width vs. Trophic Level
-ggplot(data.updated,aes(x = Beak.Width, y = Trophic.Level, color = Trophic.Level)) +
+ggplot(data.updated2,aes(x = Beak.Width, y = Trophic.Level, color = Trophic.Level)) +
   geom_smooth(method="lm")
 #Length vs. Trophic Level
-ggplot(data.updated, aes(x = Beak.Length_Culmen, y = Trophic.Level, color = Trophic.Level)) +
+ggplot(data.updated2, aes(x = Beak.Length_Culmen, y = Trophic.Level, color = Trophic.Level)) +
   geom_smooth(method="lm")
 
 #I think we should maybe try to normalize at least the length compared to tail lengths or something
@@ -139,6 +139,4 @@ unique(data$Habitat.Density)
 ggplot(data.norm, mapping = aes(x = l.w.ratio, y = Trophic.Niche, color = Trophic.Level)) +
   geom_point() +
   facet_wrap(~Habitat)
-
-
 
