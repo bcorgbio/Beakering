@@ -37,34 +37,15 @@ data <- data.tmp[!is.na(data.tmp$Trophic.Niche),]
 ```
 
 ```{r, normalized ratios & log transform relevant columns}
-data.upd <- data %>% 
-  mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width) %>% 
-  mutate(bsize.mass.ratio = l.w.ratio / Mass) %>% #beak lw ratio/body mass
+data.norm <- data %>% 
+  mutate(w.l.ratio = Beak.Width/Beak.Length_Culmen) %>% 
+  mutate(bsize.bodymass.ratio = w.l.ratio / Mass) %>% #beak wl ratio/body mass
   mutate(l.log = log10(data$Beak.Length_Culmen)) %>% 
   mutate(w.log = log10(data$Beak.Width)) %>% 
   mutate(mass.log = log10(data$Mass)) #body mass
 ```
 
 # Results
-
-
-```{r, include=FALSE}
-library(tidyverse)
-library(factoextra)
-library(ggplot2)
-library(Momocs)
-
-data <- read_csv("AVONETdata_BirdTree_Pigot2020.csv") 
-
-data.norm <- data %>% 
-  mutate(w.l.ratio = Beak.Length_Culmen / Beak.Width)
-data.norm$w.l.ratio
-
-# Perform PCA on the beak measurement
-data.norm <- data.norm %>% 
-  mutate(bsize.bodymass.ratio = w.l.ratio / Mass)
-data.norm$bsize.bodymass.ratio
-```
 
 
 ```{r, fig.cap="Figure 1: Relationship of Beak Width to Beak Length Separated by Trophic Level"}
