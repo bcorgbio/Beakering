@@ -29,12 +29,21 @@ library(reshape2)
 data.ori <- read_csv("AVONETdata_BirdTree_Pigot2020.csv")
 
 #removed any rows where Trophic.Level or Trophic.Niche has N/A value
-data.tmp <- data.ori[!is.na(data$Trophic.Level),]
+data.tmp <- data.ori[!is.na(data.ori$Trophic.Level),]
 data <- data.tmp[!is.na(data.tmp$Trophic.Niche),]
 ```
 
-## Data Collection
+```{r, normalized ratios & log transform relevant columns}
+data.upd <- data %>% 
+  mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width) %>% 
+  mutate(bsize.mass.ratio = l.w.ratio / Mass) %>% #beak lw ratio/body mass
+  mutate(l.log = log10(data$Beak.Length_Culmen)) %>% 
+  mutate(w.log = log10(data$Beak.Width)) %>% 
+  mutate(mass.log = log10(data$Mass))
+```
 
+## Data Collection
+Morphological and ecological data analyzed in this report were gathered from the AVONET data set described by @tobias2022avonet. Within the data set, geographical and phylogenetic information were organized and the results shared by @pigot2020macroevolutionary. 
 ## Data Analysis
 
 
