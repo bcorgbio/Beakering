@@ -39,7 +39,7 @@ data <- data.tmp[!is.na(data.tmp$Trophic.Niche),]
 
 ```{r, normalized ratios & log transform relevant columns}
 data.norm <- data %>% 
-  mutate(l.w.ratio = Beak.Width/Beak.Length_Culmen) %>% 
+  mutate(l.w.ratio = Beak.Length_Culmen/Beak.Width) %>% 
   mutate(bsize.bodymass.ratio = l.w.ratio / Mass) %>% #beak lw ratio/body mass
   mutate(l.log = log10(data$Beak.Length_Culmen)) %>% 
   mutate(w.log = log10(data$Beak.Width)) %>% 
@@ -52,8 +52,7 @@ data.norm <- data %>%
 ```{r, fig.cap= "Figure on Habitats____"}
 data.norm <- data %>% 
   mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width)
-
-ggplot(data.norm, mapping = aes(x = l.w.ratio, y = Trophic.Niche, color = Trophic.Level)) +
+ggplot(data.norm, mapping = aes(x =l.w.ratio, y =Trophic.Niche, color =Trophic.Level)) +
   geom_point() +
   facet_wrap(~Habitat)
 ```
@@ -73,7 +72,7 @@ ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) 
 
 
 
-### Analysis of mass vs. beak volume
+## Analysis of mass vs. beak volume
 ```{r, include=FALSE}
 data.norm <- data.norm %>% 
   mutate(beak.volume = ((Beak.Length_Culmen*Beak.Depth*Beak.Width)/3)) 
@@ -89,17 +88,17 @@ ggplot(data.norm, aes(x = Mass, y = beak.volume, color = Trophic.Level, type="n"
 
 At this point we can see that a birds mass does correlate positively with beak size (which we are approximating with beak volume) across all trophic levels. Here we assumed that a birds beak shape was roughly pyramidal as most beaks tend to fit that description (shape used does not matter much, just need measure to capture variation in all beak size parameters). Using this we were able to approximate beak size by using the volume formula for a pyramid to approximate the maximum volume that could be held by the beak ($$Volume = (width)(length)(height)/3$$). This is essentially a positive control as one can expect heavier bird to be larger, and subsequently have a larger beak. Nevertheless, this proves useful in our analysis in helping to show what factors have an impact on beak shape and size and shows that it is potentially possible to predict beak size or shape using other explanatory variables.
 
-Analysis of Width to Length Ratio to Bird Size
+## Analysis of Width to Length Ratio to Bird Size
 ```{r, fig.cap= "Figure 4: "}
 ggplot(data.norm, aes(x = l.w.ratio, y = Mass, color = Trophic.Level, type="n")) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
   scale_x_continuous(trans='log10') 
 ```
-Can see here that the shape of a beak does not appear to have a strong positive or negative correlation with respect to bird mass across species. This likely means that bird mass does not have a large impact on beak shape.
+Body mass correlates with beak shape differently across trophic levels. While omnivore beak shape does not have a big effect on body mass, longer & thinner beak shape tends to predict smaller body mass for herbivores and larger body mass for carnivores. Scavenger body mass also decreases as beak becomes longer & thinner.
 
 
-Final Regression Models
+## Final Regression Models
 ```{r}
 
 #1
@@ -149,16 +148,10 @@ abline(0,0)
 ```
 
 
-
-
-
 # Discussion
 
 
 # Author Contributions
-Karim Dahr: 
-Brendan Fox:
-Tingwei Hu:
-Joseph Milosh: 
+All authors contributed equally to this project.
 
 # References

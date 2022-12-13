@@ -382,7 +382,7 @@ Data Analysis</p>
 data.tmp &lt;- data.ori[!is.na(data.ori$Trophic.Level),]
 data &lt;- data.tmp[!is.na(data.tmp$Trophic.Niche),]</code></pre>
 <pre class="r"><code>data.norm &lt;- data %&gt;% 
-  mutate(l.w.ratio = Beak.Width/Beak.Length_Culmen) %&gt;% 
+  mutate(l.w.ratio = Beak.Length_Culmen/Beak.Width) %&gt;% 
   mutate(bsize.bodymass.ratio = l.w.ratio / Mass) %&gt;% #beak lw ratio/body mass
   mutate(l.log = log10(data$Beak.Length_Culmen)) %&gt;% 
   mutate(w.log = log10(data$Beak.Width)) %&gt;% 
@@ -393,8 +393,7 @@ data &lt;- data.tmp[!is.na(data.tmp$Trophic.Niche),]</code></pre>
 <h1>Results</h1>
 <pre class="r"><code>data.norm &lt;- data %&gt;% 
   mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width)
-
-ggplot(data.norm, mapping = aes(x = l.w.ratio, y = Trophic.Niche, color = Trophic.Level)) +
+ggplot(data.norm, mapping = aes(x =l.w.ratio, y =Trophic.Niche, color =Trophic.Level)) +
   geom_point() +
   facet_wrap(~Habitat)</code></pre>
 <div class="figure">
@@ -424,8 +423,8 @@ Level
 Figure 2:
 </p>
 </div>
-<div id="analysis-of-mass-vs.-beak-volume" class="section level3">
-<h3>Analysis of mass vs. beak volume</h3>
+<div id="analysis-of-mass-vs.-beak-volume" class="section level2">
+<h2>Analysis of mass vs. beak volume</h2>
 <pre class="r"><code>ggplot(data.norm, aes(x = Mass, y = beak.volume, color = Trophic.Level, type=&quot;n&quot;)) +
   geom_smooth(method=&quot;lm&quot;)+
   scale_y_continuous(trans=&#39;log10&#39;)+
@@ -451,7 +450,9 @@ have a larger beak. Nevertheless, this proves useful in our analysis in
 helping to show what factors have an impact on beak shape and size and
 shows that it is potentially possible to predict beak size or shape
 using other explanatory variables.</p>
-<p>Analysis of Width to Length Ratio to Bird Size</p>
+</div>
+<div id="analysis-of-width-to-length-ratio-to-bird-size" class="section level2">
+<h2>Analysis of Width to Length Ratio to Bird Size</h2>
 <pre class="r"><code>ggplot(data.norm, aes(x = l.w.ratio, y = Mass, color = Trophic.Level, type=&quot;n&quot;)) +
   geom_smooth(method=&quot;lm&quot;)+
   scale_y_continuous(trans=&#39;log10&#39;)+
@@ -463,11 +464,14 @@ using other explanatory variables.</p>
 Figure 4:
 </p>
 </div>
-<p>Can see here that the shape of a beak does not appear to have a
-strong positive or negative correlation with respect to bird mass across
-species. This likely means that bird mass does not have a large impact
-on beak shape.</p>
-<p>Final Regression Models</p>
+<p>Body mass correlates with beak shape differently across trophic
+levels. While omnivore beak shape does not have a big effect on body
+mass, longer &amp; thinner beak shape tends to predict smaller body mass
+for herbivores and larger body mass for carnivores. Scavenger body mass
+also decreases as beak becomes longer &amp; thinner.</p>
+</div>
+<div id="final-regression-models" class="section level2">
+<h2>Final Regression Models</h2>
 <pre class="r"><code>#1
 carnivore.data.norm &lt;- subset(data.norm, Trophic.Level == &quot;Carnivore&quot;)
 first.model &lt;- lm(carnivore.data.norm$l.w.ratio ~ carnivore.data.norm$Mass + 
@@ -615,7 +619,7 @@ abline(0,0)</code></pre>
 </div>
 <div id="author-contributions" class="section level1">
 <h1>Author Contributions</h1>
-<p>Karim Dahr: Brendan Fox: Tingwei Hu: Joseph Milosh:</p>
+<p>All authors contributed equally to this project.</p>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
