@@ -1,23 +1,33 @@
+#--------------
+# LOAD PACKAGES
+#--------------
 library(tidyverse)
 library(factoextra)
 library(ggplot2)
 library(Momocs)
+library(scatterplot3d)
+library(viridis)
+library(RColorBrewer)
+library(ggplot2)
+library(reshape2)
 
-# Load data on bird beak measurements and diets
+
 data <- read_csv("AVONETdata_BirdTree_Pigot2020.csv") 
 
 data.norm <- data %>% 
-  mutate(w.l.ratio = Beak.Length_Culmen / Beak.Width)
-data.norm$w.l.ratio
+  mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width)
 
+data.updated <- data.norm[!is.na(data$Trophic.Level),]
+data.updated <- data.updated[!is.na(data.updated$Trophic.Niche),]
+#updated has na omitted, updated 2 has bsize/mass ratio
+data.updated2 <- data.updated %>% 
+  mutate(bsize.bodymass.ratio = l.w.ratio / Mass)
 
-# Perform PCA on the beak measurement
-ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level)) +
-  geom_point() + geom_smooth(method="lm")+
-  scale_y_continuous(trans='log10')+
-  scale_x_continuous(trans='log10')
-
-ggplot(data.norm, aes(x = Trophic.Niche, y = w.l.ratio, color = Trophic.Level)) +
-  geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  coord_cartesian(ylim = c(quantile(data.norm$w.l.ratio, 0.1), quantile(data.norm$w.l.ratio, )))
+#data.log has all the transformed values
+data.log <- data.updated2 %>% 
+  mutate(l.log = log10(data.updated2$Beak.Length_Culmen)) %>% 
+  mutate(w.log = log10(data.updated2$Beak.Width)) %>% 
+  mutate(mass.log = log10(data.updated2$Mass)) %>% 
+  mutate(l.w.log = l.log/w.log) %>% 
+  mutate(lw.mass.log = l.w.log/mass.log)
 
