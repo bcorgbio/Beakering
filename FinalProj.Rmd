@@ -115,6 +115,24 @@ ggplot(data.norm, aes(x = w.l.ratio, y = Mass, color = Trophic.Level, type="n"))
 Can see here that the shape of a beak does not appear to have a strong positive or negative correlation with respect to bird mass across species. This likely means that bird mass does not have a large impact on beak shape.
 
 
+Final Regression Models
+```{r}
+
+carnivore.data.norm <- subset(data.norm, Trophic.Level == "Carnivore")
+first.model <- lm(carnivore.data.norm$Tarsus.Length ~ carnivore.data.norm$Mass + 
+                    carnivore.data.norm$Centroid.Latitude + carnivore.data.norm$Centroid.Longitude)
+
+summary(first.model)
+
+herbivore.data.norm <- subset(data.norm, Trophic.Level == "Herbivore")
+second.model <- lm(herbivore.data.norm$Tarsus.Length ~ herbivore.data.norm$Mass + 
+                     herbivore.data.norm$Centroid.Latitude + herbivore.data.norm$Centroid.Longitude)
+
+summary(second.model)
+
+```
+
+
 
 # Discussion
 
