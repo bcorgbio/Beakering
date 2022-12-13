@@ -48,6 +48,73 @@ data.upd <- data %>%
 # Results
 
 
+```{r, include=FALSE}
+library(tidyverse)
+library(factoextra)
+library(ggplot2)
+library(Momocs)
+
+data <- read_csv("AVONETdata_BirdTree_Pigot2020.csv") 
+
+data.norm <- data %>% 
+  mutate(w.l.ratio = Beak.Length_Culmen / Beak.Width)
+data.norm$w.l.ratio
+
+# Perform PCA on the beak measurement
+data.norm <- data.norm %>% 
+  mutate(bsize.bodymass.ratio = w.l.ratio / Mass)
+data.norm$bsize.bodymass.ratio
+```
+
+
+```{r, fig.cap="Figure 1: Relationship of Beak Width to Beak Length Separated by Trophic Level"}
+ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level)) +
+  geom_point() + geom_smooth(method="lm")+
+  scale_y_continuous(trans='log10')+
+  scale_x_continuous(trans='log10')
+```
+
+```{r, fig.cap="Figure 2: "}
+ggplot(data.norm, aes(x = Trophic.Niche, y = w.l.ratio, color = Trophic.Niche)) +
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_cartesian(ylim = c(quantile(data.norm$w.l.ratio, 0.0), quantile(data.norm$w.l.ratio, 0.999)))
+```
+
+```{r, fig.cap="Figure 3: "}
+ggplot(data.norm, aes(x = Trophic.Level, y = bsize.bodymass.ratio, color = Trophic.Level)) +
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_cartesian(ylim = c(quantile(data.norm$bsize.bodymass.ratio
+  , 0.5), quantile(data.norm$bsize.bodymass.ratio
+  , 0.999)))
+```
+
+
+### Analysis of mass vs. beak volume
+```{r, include=FALSE}
+data.norm <- data.norm %>% 
+  mutate(beak.volume = ((Beak.Length_Culmen*Beak.Depth*Beak.Width)/3)) 
+data.norm$beak.volume
+```
+
+```{r, fig.cap="Figure 5: "}
+ggplot(data.norm, aes(x = Mass, y = beak.volume, color = Trophic.Level, type="n")) +
+  geom_point() + geom_smooth(method="lm")+
+  scale_y_continuous(trans='log10')+
+  scale_x_continuous(trans='log10') 
+```
+
+At this point we can see that a birds mass does correlate positively with beak size (which we are approximating with beak volume) across all trophic levels. Here we assumed that a birds beak shape was roughly pyramidal as most beaks tend to fit that description (shape used does not matter much, just need measure to capture variation in all beak size parameters). Using this we were able to approximate beak size by using the volume formula for a pyramid to approximate the maximum volume that could be held by the beak ($$Volume = (width*length*height)/3). This is essentially a positive control as one can expect heavier bird to be larger, and subsequently have a larger beak. Nevertheless, this proves useful in our analysis in helping to show what factors have an impact on beak shape and size.
+
+Analysis of Width to Length Ratio to Bird Size
+```{r, fig.cap= "Figure 4: "}
+ggplot(data.norm, aes(x = w.l.ratio, y = Mass, color = Trophic.Level, type="n")) +
+  geom_point() + geom_smooth(method="lm")+
+  scale_y_continuous(trans='log10')+
+  scale_x_continuous(trans='log10') 
+```
+Can see here that the shape of a beak does not appear to have a strong positive or negative correlation with respect to bird mass across species. This likely means that bird mass does not have a large impact on beak shape.
+
+
 
 # Discussion
 
