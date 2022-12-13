@@ -14,14 +14,24 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(knitr)
 library(Momocs)
+library(scatterplot3d)
+library(viridis)
+library(RColorBrewer)
+library(reshape2)
 ```
 # Introduction
 
 
 
 
-
 # Methods
+```{r, data prep, message=FALSE}
+data.ori <- read_csv("AVONETdata_BirdTree_Pigot2020.csv")
+
+#removed any rows where Trophic.Level or Trophic.Niche has N/A value
+data.tmp <- data.ori[!is.na(data$Trophic.Level),]
+data <- data.tmp[!is.na(data.tmp$Trophic.Niche),]
+```
 
 ## Data Collection
 
