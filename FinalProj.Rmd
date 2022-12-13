@@ -52,7 +52,6 @@ data.norm <- data %>%
 ```{r, fig.cap= "Figure on Habitats____"}
 data.norm <- data %>% 
   mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width)
-data.norm$l.w.ratio
 
 ggplot(data.norm, mapping = aes(x = l.w.ratio, y = Trophic.Niche, color = Trophic.Level)) +
   geom_point() +
@@ -106,37 +105,37 @@ Final Regression Models
 carnivore.data.norm <- subset(data.norm, Trophic.Level == "Carnivore")
 first.model <- lm(carnivore.data.norm$l.w.ratio ~ carnivore.data.norm$Mass + 
                     carnivore.data.norm$Centroid.Latitude + carnivore.data.norm$Centroid.Longitude)
+res1 <- resid(first.model)
 
-summary(first.model)
-
-plot(first.model)
+plot(fitted(first.model), res1)
+abline(0,0)
 
 #2
 herbivore.data.norm <- subset(data.norm, Trophic.Level == "Herbivore")
 second.model <- lm(herbivore.data.norm$l.w.ratio ~ herbivore.data.norm$Mass + 
                      herbivore.data.norm$Centroid.Latitude + herbivore.data.norm$Centroid.Longitude)
+res2 <- resid(second.model)
 
-summary(second.model)
-
-plot(second.model)
+plot(fitted(second.model), res2)
+abline(0,0)
 
 #3
 scavenger.data.norm <- subset(data.norm, Trophic.Level == "Scavenger")
 third.model <- lm(scavenger.data.norm$l.w.ratio ~ scavenger.data.norm$Mass + 
                     scavenger.data.norm$Centroid.Latitude + scavenger.data.norm$Centroid.Longitude)
+res3 <- resid(third.model)
 
-summary(third.model)
-
-plot(third.model)
+plot(fitted(third.model), res3)
+abline(0,0)
 
 #4
 omnivore.data.norm <- subset(data.norm, Trophic.Level == "Omnivore")
 fourth.model <- lm(omnivore.data.norm$l.w.ratio ~ omnivore.data.norm$Mass +
                      omnivore.data.norm$Centroid.Latitude +  omnivore.data.norm$Centroid.Longitude)
+res4 <- resid(fourth.model)
 
-summary(fourth.model)
-
-plot(fourth.model)
+plot(fitted(fourth.model), res4)
+abline(0,0)
 
 ```
 
