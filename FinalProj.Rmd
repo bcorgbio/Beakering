@@ -92,7 +92,7 @@ At this point we can see that a birds mass does correlate positively with beak s
 
 Analysis of Width to Length Ratio to Bird Size
 ```{r, fig.cap= "Figure 4: "}
-ggplot(data.norm, aes(x = w.l.ratio, y = Mass, color = Trophic.Level, type="n")) +
+ggplot(data.norm, aes(x = l.w.ratio, y = Mass, color = Trophic.Level, type="n")) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
   scale_x_continuous(trans='log10') 
@@ -102,18 +102,41 @@ Can see here that the shape of a beak does not appear to have a strong positive 
 
 Final Regression Models
 ```{r}
-
+#1
 carnivore.data.norm <- subset(data.norm, Trophic.Level == "Carnivore")
-first.model <- lm(carnivore.data.norm$Tarsus.Length ~ carnivore.data.norm$Mass + 
+first.model <- lm(carnivore.data.norm$l.w.ratio ~ carnivore.data.norm$Mass + 
                     carnivore.data.norm$Centroid.Latitude + carnivore.data.norm$Centroid.Longitude)
 
 summary(first.model)
 
+plot(first.model)
+
+#2
 herbivore.data.norm <- subset(data.norm, Trophic.Level == "Herbivore")
-second.model <- lm(herbivore.data.norm$Tarsus.Length ~ herbivore.data.norm$Mass + 
+second.model <- lm(herbivore.data.norm$l.w.ratio ~ herbivore.data.norm$Mass + 
                      herbivore.data.norm$Centroid.Latitude + herbivore.data.norm$Centroid.Longitude)
 
 summary(second.model)
+
+plot(second.model)
+
+#3
+scavenger.data.norm <- subset(data.norm, Trophic.Level == "Scavenger")
+third.model <- lm(scavenger.data.norm$l.w.ratio ~ scavenger.data.norm$Mass + 
+                    scavenger.data.norm$Centroid.Latitude + scavenger.data.norm$Centroid.Longitude)
+
+summary(third.model)
+
+plot(third.model)
+
+#4
+omnivore.data.norm <- subset(data.norm, Trophic.Level == "Omnivore")
+fourth.model <- lm(omnivore.data.norm$l.w.ratio ~ omnivore.data.norm$Mass +
+                     omnivore.data.norm$Centroid.Latitude +  omnivore.data.norm$Centroid.Longitude)
+
+summary(fourth.model)
+
+plot(fourth.model)
 
 ```
 
