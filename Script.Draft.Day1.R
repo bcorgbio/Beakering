@@ -8,49 +8,71 @@ library(Momocs)
 library(scatterplot3d)
 library(viridis)
 library(RColorBrewer)
+library(ggplot2)
+library(reshape2)
 
-# Load data on bird beak measurements and diets
+
+# Load data on bird beak measurements and diets to new data file, 'data'
 data <- read_csv("AVONETdata_BirdTree_Pigot2020.csv") 
 
+#We mutated the df called data to add another column that pseudo-normalizes the length/ width proportions
 data.norm <- data %>% 
-  mutate(w.l.ratio = Beak.Length_Culmen / Beak.Width)
-data.norm$w.l.ratio
+  mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width)
+data.norm$l.w.ratio
 
 
-
+#We mutated the newly formed data set to take out all of the NA birds at the Trophic Level
 data.updated <- data.norm[!is.na(data$Trophic.Level),]
-# Perform analysis on the beak measurement
+data.updated <- data.norm[!is.na(data$Trophic.Niche),]
+
+#Made a plot that compares beak width to length on a log scale, colored by Trophic Level
 ggplot(data.updated, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level, type = "n")) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
   scale_x_continuous(trans='log10')
 
-
-ggplot(data.norm, aes(x = Trophic.Niche, y = w.l.ratio, color = Trophic.Niche)) +
+#Made a plot that compares beak length/width on a log scale, colored by Trophic Level
+ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Level)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  coord_cartesian(ylim = c(quantile(data.norm$w.l.ratio, 0.0), quantile(data.norm$w.l.ratio, 0.999)))
+  coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
 
-data.norm <- data.norm %>% 
-  mutate(bsize.bodymass.ratio = w.l.ratio / Mass)
-data.norm$bsize.bodymass.ratio
-
-ggplot(data.norm, aes(x = Trophic.Level, y = bsize.bodymass.ratio, color = Trophic.Level)) +
+#Made a plot that compares beak length/width on a log scale, colored by Trophic Niche
+ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  coord_cartesian(ylim = c(quantile(data.norm$bsize.bodymass.ratio, 0.5), quantile(data.norm$bsize.bodymass.ratio, 0.979)))
+  coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
+#In here, we added some lines to clean up the view & rotate the text on the x axis
 
-ggplot(data.norm, aes(x = w.l.ratio, y = Mass, color = Trophic.Level, type="n")) +
-  geom_point() + geom_smooth(method="lm")+
+
+#Mutated the df again, this time adding a body size to l/w ratio column 
+data.updated <- data.norm %>% 
+  mutate(bsize.bodymass.ratio = l.w.ratio / Mass)
+  data.updated$bsize.bodymass.ratio
+
+#Plot of the new body size to mass ratio separated by color and log transformed
+ggplot(data.updated, aes(x = Trophic.Level, y = bsize.bodymass.ratio, color = Trophic.Level)) +
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_cartesian(ylim = c(quantile(data.updated$bsize.bodymass.ratio, 0.5), quantile(data.updated$bsize.bodymass.ratio, 0.979)))
+ 
+
+
+#This graph below seems repetitive/ basically the same as the one above
+#Investigating the L/W ration over mass, colored by tropic level
+ggplot(data.updated, aes(x = l.w.ratio, y = Mass, color = Trophic.Level, type="n")) +
+  geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
   scale_x_continuous(trans='log10') 
 
+
+
+
 # beak length = height of pyramid, beak depth = length of side, beak width = width of pyramid
-data
+#data
 
 
 # 
 # Don't have volume rn... 
 # 
-# ggplot(data.norm, aes(x = w.l.ratio, y = beak.volume, color = Trophic.Level, type="n")) +
+# ggplot(data.norm, aes(x = l.w.ratio, y = beak.volume, color = Trophic.Level, type="n")) +
 #   geom_point() + geom_smooth(method="lm")+
 #   scale_y_continuous(trans='log10')+
 #   scale_x_continuous(trans='log10') 
@@ -87,10 +109,20 @@ ggplot(data.updated, aes(x = Beak.Length_Culmen, y = Trophic.Level, color = Trop
 unique(data$Habitat.Density)
 
 #Three-dimensional scatter plot using the scatterplot3d() function
-scatterplot3d(x = data.norm$Beak.Length_Culmen, y = data.norm$Mass, z = data.norm$Beak.Width)
+# scatterplot3d(x = data.updated$Beak.Length_Culmen, 
+#               y = data.updated$Mass, 
+#               z = data.updated$Beak.Width)
 # plot(df, type="n") + # suppress the plotting of the individual points
 # lines(df)  # plot the best fit lines
 
  
 #  stat_density2d(aes(fill = ..density..), geom = 'tile', contour = F) +
 #  scale_fill_distiller(palette = 'RdYlBu')
+
+
+ggplot(data.norm, mapping = aes(x = l.w.ratio, y = Trophic.Niche, color = Trophic.Level)) + 
+  geom_point() +
+  facet_wrap(~Habitat) 
+
+
+
