@@ -72,13 +72,6 @@ ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) 
   coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
 ```
 
-```{r, fig.cap="Figure 3: "}
-ggplot(data.norm, aes(x = Trophic.Level, y = bsize.bodymass.ratio, color = Trophic.Level)) +
-  geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  coord_cartesian(ylim = c(quantile(data.norm$bsize.bodymass.ratio
-  , 0.5), quantile(data.norm$bsize.bodymass.ratio
-  , 0.999)))
-```
 
 
 ### Analysis of mass vs. beak volume
