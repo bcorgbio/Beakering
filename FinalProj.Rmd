@@ -25,6 +25,11 @@ library(reshape2)
 
 
 # Methods
+
+
+## Data Collection
+Morphological and ecological data analyzed in this report were gathered from the AVONET data set described by @tobias2022avonet. Within the data set, geographical and phylogenetic information were organized and the results shared by @pigot2020macroevolutionary. 
+## Data Analysis
 ```{r, data prep, message=FALSE}
 data.ori <- read_csv("AVONETdata_BirdTree_Pigot2020.csv")
 
@@ -41,11 +46,6 @@ data.upd <- data %>%
   mutate(w.log = log10(data$Beak.Width)) %>% 
   mutate(mass.log = log10(data$Mass))
 ```
-
-## Data Collection
-Morphological and ecological data analyzed in this report were gathered from the AVONET data set described by @tobias2022avonet. Within the data set, geographical and phylogenetic information were organized and the results shared by @pigot2020macroevolutionary. 
-## Data Analysis
-
 
 # Results
 
