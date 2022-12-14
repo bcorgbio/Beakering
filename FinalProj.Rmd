@@ -28,7 +28,7 @@ The study of birds has been a fascinating topic for researchers and the general 
 
 ## Data Collection
 
-Morphological and ecological data analyzed in this report were gathered from the AVONET data set described by @tobias2022avonet. Within the data set, geographical and phylogenetic information were organized and the results shared by @pigot2020macroevolutionary. 
+Morphological and ecological data analyzed in this report were gathered from the AVONET data set described by @tobias2022avonet. Within the data set, geographical and phylogenetic information were organized and the results shared by @pigot2020macroevolutionary.
 
 ## Data Analysis
 
@@ -45,7 +45,8 @@ data <- data.tmp[!is.na(data.tmp$Trophic.Niche),]
 data.norm <- data %>% 
   mutate(l.w.ratio = Beak.Length_Culmen/Beak.Width)
 ```
-We imported the @pigot2020macroevolutionary data set and excluded rows that contain N/A in either the ```Trophic.Level``` or ```Trophic.Niche``` column. We then created a column that contain beak length to width ratio for each species as our way of shape characterization.
+
+We imported the @pigot2020macroevolutionary data set and excluded rows that contain N/A in either the `Trophic.Level` or `Trophic.Niche` column. We then created a column that contain beak length to width ratio for each species as our way of shape characterization.
 
 # Results
 
@@ -56,8 +57,8 @@ ggplot(data.norm, mapping = aes(x =l.w.ratio, y =Trophic.Niche, color =Trophic.L
   geom_point() +
   facet_wrap(~Habitat)
 ```
-Figure 1 provides a brief look at the data we will be investigating.  By separating and analyzing bird beak 'length to width ratio' we can see that, in general, carnivorous birds in nearly all habitats have the greatest l.w.ratio.  By further dividing this data sample of over 9,000 species, we also seek to investigate the specific trophic niches that these birds occupy, and the effect diet has on bird beak shape and/or beak shape on diet.  
 
+Figure 1 provides a brief look at the data we will be investigating. By separating and analyzing bird beak 'length to width ratio' we can see that, in general, carnivorous birds in nearly all habitats have the greatest l.w.ratio. By further dividing this data sample of over 9,000 species, we also seek to investigate the specific trophic niches that these birds occupy, and the effect diet has on bird beak shape and/or beak shape on diet.
 
 ```{r, fig.cap="Figure 2: Relationship of Beak Width to Beak Length Separated by Trophic Level", message=FALSE}
 ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level)) +
@@ -65,8 +66,8 @@ ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level))
   scale_y_continuous(trans='log10')+
   scale_x_continuous(trans='log10')
 ```
-Figure 2 provides a broad view of beak shape characteristics and presents us with Trophic level specific characteristics of each beak.  Carnivorous beaks display the largest variation of both beak length and width while Scavengers have the least variation in beak proportions. As a general observation, Carnivorous beaks appear longest among species with wider beaks (Beak.Width > 7). Omnivores trend more similarly to carnivores than Herbivores. Herbivores tend to have wider beaks compared to their length indicated by a comparatively smaller slope than the other Trophic Levels.   
 
+Figure 2 provides a broad view of beak shape characteristics and presents us with Trophic level specific characteristics of each beak. Carnivorous beaks display the largest variation of both beak length and width while Scavengers have the least variation in beak proportions. As a general observation, Carnivorous beaks appear longest among species with wider beaks (Beak.Width \> 7). Omnivores trend more similarly to carnivores than Herbivores. Herbivores tend to have wider beaks compared to their length indicated by a comparatively smaller slope than the other Trophic Levels.
 
 ```{r, fig.cap="Figure 3a ", echo=FALSE}
 ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) +
@@ -79,8 +80,8 @@ ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Level)) 
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
 ```
-Figures 3a & b further specify the information found in Figure 2.  Figure 3a compared beak length to width ratio among specific trophic niches. Here, we observe that the greatest ratios are found among the aquatic predators and nectivores.  Granivores, or seed eating birds are found with the lowest ratio, indicating wider beaks.  Figure 3b breaks down each trophic niche into trophic level, allowing us to see overlapping traits and observe the previously found trend of carnivores having amongst the longest beaks by ratio.  
 
+Figures 3a & b further specify the information found in Figure 2. Figure 3a compared beak length to width ratio among specific trophic niches. Here, we observe that the greatest ratios are found among the aquatic predators and nectivores. Granivores, or seed eating birds are found with the lowest ratio, indicating wider beaks. Figure 3b breaks down each trophic niche into trophic level, allowing us to see overlapping traits and observe the previously found trend of carnivores having amongst the longest beaks by ratio.
 
 ## Analysis of mass vs. beak volume
 
