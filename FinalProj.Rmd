@@ -1,5 +1,5 @@
 ---
-title: "Beak"
+title: "Bird Beak Shape and Diet Relationships"
 author: "Karim Dahr, Brendan Fox, Tingwei Hu, Joseph Milosh"
 date: "2022-12-09"
 output: html_document
@@ -20,7 +20,7 @@ library(RColorBrewer)
 library(reshape2)
 ```
 # Introduction
-
+The study of birds has been a fascinating topic for researchers and the general public alike. One interesting ecological aspect of bird behavior is their diet and how it may impact their physical or morphological characteristics. In particular, we look to answer the question of whether the diet of a bird can be used to predict the shape of its beak. This paper will analyze existing research on the topic and provide insight into the relationship between bird diets and beak shapes. The data we analyze in this study comes from “AVONET: morphological, ecological and geographical data for all birds,” a precious study conducted by Tobias Et. al.  By examining various factors that can influence beak shape, we can gain a better understanding of the role that diet plays in this process. Additionally, this analysis will provide valuable information and questions still remaining to be addressed in future studies.
 
 
 
