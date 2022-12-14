@@ -166,7 +166,7 @@ abline(0,0)
 ```
 
 # Discussion
-Ultimately, taking an intersectional approach of categorizing bird feeding habits by both their trophic niche and trophic level result in the most concrete evidence for suggesting that beak shape is largely controlled by diet.  
+We took an intersectional approach of categorizing bird feeding habits by both their trophic niche and trophic level result in the most concrete evidence for suggesting that beak shape is largely controlled by diet.  
 
 Figure 2 provides a starting point for our analysis. We can measure obvious differences when separating by diet.  Carnivores, herbivores, omnivores and scavengers all have different slopes and ranges.  It would appear that these ranges and ratios each represent somewhat ‘optimal’ traits for the specific trophic level observed.  While we cannot make any definitive predictions or generalizations about these traits being specific for each trophic level, further research could investigate the possible methods that are used by each bird species to eat prey.  
 
