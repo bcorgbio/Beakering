@@ -19,16 +19,18 @@ library(viridis)
 library(RColorBrewer)
 library(reshape2)
 ```
+
 # Introduction
-The study of birds has been a fascinating topic for researchers and the general public alike. One interesting ecological aspect of bird behavior is their diet and how it may impact their physical or morphological characteristics. In particular, we look to answer the question of whether the diet of a bird can be used to predict the shape of its beak. This paper will analyze existing research on the topic and provide insight into the relationship between bird diets and beak shapes. The data we analyze in this study comes from “AVONET: morphological, ecological and geographical data for all birds,” a precious study conducted by Tobias Et. al.  By examining various factors that can influence beak shape, we can gain a better understanding of the role that diet plays in this process. Additionally, this analysis will provide valuable information and questions still remaining to be addressed in future studies.
 
-
+The study of birds has been a fascinating topic for researchers and the general public alike. One interesting ecological aspect of bird behavior is their diet and how it may impact their physical or morphological characteristics. In particular, we look to answer the question of whether the diet of a bird can be used to predict the shape of its beak. This paper will analyze existing research on the topic and provide insight into the relationship between bird diets and beak shapes. The data we analyze in this study comes from "AVONET: morphological, ecological and geographical data for all birds," a precious study conducted by Tobias Et. al. By examining various factors that can influence beak shape, we can gain a better understanding of the role that diet plays in this process. Additionally, this analysis will provide valuable information and questions still remaining to be addressed in future studies.
 
 # Methods
+
 ## Data Collection
-Morphological and ecological data analyzed in this report were gathered from the AVONET data set described by @tobias2022avonet. Within the data set, geographical and phylogenetic information were organized and the results shared by @pigot2020macroevolutionary. 
-## Data Analysis
-```{r, data prep, message=FALSE}
+
+Morphological and ecological data analyzed in this report were gathered from the AVONET data set described by @tobias2022avonet. Within the data set, geographical and phylogenetic information were organized and the results shared by @pigot2020macroevolutionary. \## Data Analysis
+
+```{r, data prep, message=FALSE, echo=FALSE}
 data.ori <- read_csv("AVONETdata_BirdTree_Pigot2020.csv")
 
 #removed any rows where Trophic.Level or Trophic.Niche has N/A value
@@ -37,7 +39,7 @@ data <- data.tmp[!is.na(data.tmp$Trophic.Niche),]
 
 ```
 
-```{r, normalized ratios & log transform relevant columns}
+```{r, normalized ratios & log transform relevant columns, echo=FALSE}
 data.norm <- data %>% 
   mutate(l.w.ratio = Beak.Length_Culmen/Beak.Width) %>% 
   mutate(bsize.bodymass.ratio = l.w.ratio / Mass) %>% #beak lw ratio/body mass
@@ -48,8 +50,7 @@ data.norm <- data %>%
 
 # Results
 
-
-```{r, fig.cap= "Figure on Habitats____"}
+```{r, fig.cap= "Figure on Habitats____", echo=FALSE}
 data.norm <- data %>% 
   mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width)
 ggplot(data.norm, mapping = aes(x =l.w.ratio, y =Trophic.Niche, color =Trophic.Level)) +
@@ -57,29 +58,28 @@ ggplot(data.norm, mapping = aes(x =l.w.ratio, y =Trophic.Niche, color =Trophic.L
   facet_wrap(~Habitat)
 ```
 
-```{r, fig.cap="Figure 1: Relationship of Beak Width to Beak Length Separated by Trophic Level"}
+```{r, fig.cap="Figure 1: Relationship of Beak Width to Beak Length Separated by Trophic Level",echo=FALSE}
 ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level)) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
   scale_x_continuous(trans='log10')
 ```
 
-```{r, fig.cap="Figure 2: "}
+```{r, fig.cap="Figure 2: ", echo=FALSE}
 ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
 ```
 
-
-
 ## Analysis of mass vs. beak volume
-```{r, include=FALSE}
+
+```{r, include=FALSE, echo=FALSE}
 data.norm <- data.norm %>% 
   mutate(beak.volume = ((Beak.Length_Culmen*Beak.Depth*Beak.Width)/3)) 
 data.norm$beak.volume
 ```
 
-```{r, fig.cap="Figure 5: "}
+```{r, fig.cap="Figure 5: ", echo=FALSE}
 ggplot(data.norm, aes(x = Mass, y = beak.volume, color = Trophic.Level, type="n")) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
@@ -89,16 +89,18 @@ ggplot(data.norm, aes(x = Mass, y = beak.volume, color = Trophic.Level, type="n"
 At this point we can see that a birds mass does correlate positively with beak size (which we are approximating with beak volume) across all trophic levels. Here we assumed that a birds beak shape was roughly pyramidal as most beaks tend to fit that description (shape used does not matter much, just need measure to capture variation in all beak size parameters). Using this we were able to approximate beak size by using the volume formula for a pyramid to approximate the maximum volume that could be held by the beak ($$Volume = (width)(length)(height)/3$$). This is essentially a positive control as one can expect heavier bird to be larger, and subsequently have a larger beak. Nevertheless, this proves useful in our analysis in helping to show what factors have an impact on beak shape and size and shows that it is potentially possible to predict beak size or shape using other explanatory variables.
 
 ## Analysis of Width to Length Ratio to Bird Size
-```{r, fig.cap= "Figure 4: "}
+
+```{r, fig.cap= "Figure 4: ", echo=FALSE}
 ggplot(data.norm, aes(x = l.w.ratio, y = Mass, color = Trophic.Level, type="n")) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
   scale_x_continuous(trans='log10') 
 ```
+
 Body mass correlates with beak shape differently across trophic levels. While omnivore beak shape does not have a big effect on body mass, longer & thinner beak shape tends to predict smaller body mass for herbivores and larger body mass for carnivores. Scavenger body mass also decreases as beak becomes longer & thinner.
 
-
 ## Final Regression Models
+
 ```{r}
 
 #1
@@ -147,11 +149,10 @@ abline(0,0)
 
 ```
 
-
 # Discussion
 
-
 # Author Contributions
+
 All authors contributed equally to this project.
 
 # References
