@@ -50,22 +50,24 @@ data.norm <- data %>%
 
 # Results
 
-```{r, fig.cap= "Figure on Habitats____", echo=FALSE}
+```{r, fig.cap= "Figure 1", echo=FALSE}
 data.norm <- data %>% 
   mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width)
 ggplot(data.norm, mapping = aes(x =l.w.ratio, y =Trophic.Niche, color =Trophic.Level)) +
   geom_point() +
   facet_wrap(~Habitat)
 ```
+Figure 1 provides a brief look at the data we will be investigating.  By separating and analyzing bird beak 'length to width ratio' we can see that, in general, carnivorous birds in nearly all habitats have the greatest l.w.ratio.  By further dividing this data sample of over 9,000 species, we also seek to investigate the specific trophic niches that these birds occupy, and the effect diet has on bird beak shape and/or beak shape on diet.  
 
-```{r, fig.cap="Figure 1: Relationship of Beak Width to Beak Length Separated by Trophic Level",echo=FALSE}
+
+```{r, fig.cap="Figure 2: Relationship of Beak Width to Beak Length Separated by Trophic Level",echo=FALSE}
 ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level)) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
   scale_x_continuous(trans='log10')
 ```
-
-```{r, fig.cap="Figure 2: ", echo=FALSE}
+Figure 2 provides a broad view of beak shape characteristics and presents us with Trophic level specific characteristics of each beak.  Carnivorous beaks display the largest variation of both beak length and width while Scavengers have the least variation in beak proportions. As a general observation, Carnivorous beaks appear longest among species with wider beaks (Beak.Width > 7). Omnivores trend more similarly to carnivores than Herbivores. Herbivores tend to have wider beaks compared to their length indicated by a comparatively smaller slope than the other Trophic Levels.   
+```{r, fig.cap="Figure 3: ", echo=FALSE}
 ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
@@ -79,7 +81,7 @@ data.norm <- data.norm %>%
 data.norm$beak.volume
 ```
 
-```{r, fig.cap="Figure 5: ", echo=FALSE}
+```{r, fig.cap="Figure 4: ", echo=FALSE}
 ggplot(data.norm, aes(x = Mass, y = beak.volume, color = Trophic.Level, type="n")) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
@@ -90,7 +92,7 @@ At this point we can see that a birds mass does correlate positively with beak s
 
 ## Analysis of Width to Length Ratio to Bird Size
 
-```{r, fig.cap= "Figure 4: ", echo=FALSE}
+```{r, fig.cap= "Figure 5: ", echo=FALSE}
 ggplot(data.norm, aes(x = l.w.ratio, y = Mass, color = Trophic.Level, type="n")) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
