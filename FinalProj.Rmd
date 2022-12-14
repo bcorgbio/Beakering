@@ -67,11 +67,22 @@ ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level))
   scale_x_continuous(trans='log10')
 ```
 Figure 2 provides a broad view of beak shape characteristics and presents us with Trophic level specific characteristics of each beak.  Carnivorous beaks display the largest variation of both beak length and width while Scavengers have the least variation in beak proportions. As a general observation, Carnivorous beaks appear longest among species with wider beaks (Beak.Width > 7). Omnivores trend more similarly to carnivores than Herbivores. Herbivores tend to have wider beaks compared to their length indicated by a comparatively smaller slope than the other Trophic Levels.   
-```{r, fig.cap="Figure 3: ", echo=FALSE}
+
+
+
+
+```{r, fig.cap="Figure 3a ", echo=FALSE}
 ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
 ```
+```{r, fig.cap="Figure 3b ", echo=FALSE}
+ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Level)) +
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
+```
+Figures 3a & b further specify the information found in Figure 2.  Figure 3a compared beak length to width ratio among specific trophic niches. Here, we observe that the greatest ratios are found among the aquatic predators and nectivores.  Granivores, or seed eating birds are found with the lowest ratio, indicating wider beaks.  Figure 3b breaks down each trophic niche into trophic level, allowing us to see overlapping traits and observe the previously found trend of carnivores having amongst the longest beaks by ratio.  
+
 
 ## Analysis of mass vs. beak volume
 
