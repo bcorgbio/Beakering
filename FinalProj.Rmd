@@ -32,7 +32,7 @@ Morphological and ecological data analyzed in this report were gathered from the
 
 ## Data Analysis
 
-```{r, data prep, message=FALSE, echo=FALSE}
+```{r, data prep, message=FALSE}
 data.ori <- read_csv("AVONETdata_BirdTree_Pigot2020.csv")
 
 #removed any rows where Trophic.Level or Trophic.Niche has N/A value
@@ -41,18 +41,15 @@ data <- data.tmp[!is.na(data.tmp$Trophic.Niche),]
 
 ```
 
-```{r, normalized ratios & log transform relevant columns, echo=FALSE}
+```{r, normalized ratios & log transform relevant columns}
 data.norm <- data %>% 
-  mutate(l.w.ratio = Beak.Length_Culmen/Beak.Width) %>% 
-  mutate(bsize.bodymass.ratio = l.w.ratio / Mass) %>% #beak lw ratio/body mass
-  mutate(l.log = log10(data$Beak.Length_Culmen)) %>% 
-  mutate(w.log = log10(data$Beak.Width)) %>% 
-  mutate(mass.log = log10(data$Mass)) #body mass
+  mutate(l.w.ratio = Beak.Length_Culmen/Beak.Width)
 ```
+We imported the @pigot2020macroevolutionary data set and excluded rows that contain N/A in either the ```Trophic.Level``` or ```Trophic.Niche``` column. We then created a column that contain beak length to width ratio for each species as our way of shape characterization.
 
 # Results
 
-```{r, fig.cap= "Figure 1", echo=FALSE}
+```{r, fig.cap= "Figure 1"}
 data.norm <- data %>% 
   mutate(l.w.ratio = Beak.Length_Culmen / Beak.Width)
 ggplot(data.norm, mapping = aes(x =l.w.ratio, y =Trophic.Niche, color =Trophic.Level)) +
@@ -62,7 +59,7 @@ ggplot(data.norm, mapping = aes(x =l.w.ratio, y =Trophic.Niche, color =Trophic.L
 Figure 1 provides a brief look at the data we will be investigating.  By separating and analyzing bird beak 'length to width ratio' we can see that, in general, carnivorous birds in nearly all habitats have the greatest l.w.ratio.  By further dividing this data sample of over 9,000 species, we also seek to investigate the specific trophic niches that these birds occupy, and the effect diet has on bird beak shape and/or beak shape on diet.  
 
 
-```{r, fig.cap="Figure 2: Relationship of Beak Width to Beak Length Separated by Trophic Level",echo=FALSE}
+```{r, fig.cap="Figure 2: Relationship of Beak Width to Beak Length Separated by Trophic Level", message=FALSE}
 ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level)) +
   geom_smooth(method="lm")+
   scale_y_continuous(trans='log10')+
@@ -71,13 +68,12 @@ ggplot(data, aes(x = Beak.Width, y = Beak.Length_Culmen, color = Trophic.Level))
 Figure 2 provides a broad view of beak shape characteristics and presents us with Trophic level specific characteristics of each beak.  Carnivorous beaks display the largest variation of both beak length and width while Scavengers have the least variation in beak proportions. As a general observation, Carnivorous beaks appear longest among species with wider beaks (Beak.Width > 7). Omnivores trend more similarly to carnivores than Herbivores. Herbivores tend to have wider beaks compared to their length indicated by a comparatively smaller slope than the other Trophic Levels.   
 
 
-
-
 ```{r, fig.cap="Figure 3a ", echo=FALSE}
 ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Niche)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   coord_cartesian(ylim = c(quantile(data.norm$l.w.ratio, 0.0), quantile(data.norm$l.w.ratio, 0.999)))
 ```
+
 ```{r, fig.cap="Figure 3b ", echo=FALSE}
 ggplot(data.norm, aes(x = Trophic.Niche, y = l.w.ratio, color = Trophic.Level)) +
   geom_boxplot() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
@@ -88,7 +84,7 @@ Figures 3a & b further specify the information found in Figure 2.  Figure 3a com
 
 ## Analysis of mass vs. beak volume
 
-```{r, include=FALSE, echo=FALSE}
+```{r, include=FALSE}
 data.norm <- data.norm %>% 
   mutate(beak.volume = ((Beak.Length_Culmen*Beak.Depth*Beak.Width)/3)) 
 data.norm$beak.volume
