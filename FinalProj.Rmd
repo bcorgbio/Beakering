@@ -3,7 +3,7 @@ title: "Bird Beak Shape and Diet Relationships"
 author: "Karim Dahr, Brendan Fox, Tingwei Hu, Joseph Milosh"
 date: "2022-12-09"
 output: html_document
-bibliography: Beakering.bib
+bibliography: BIOL3140.bib
 ---
 
 ```{r setup, include=FALSE}
