@@ -23,7 +23,7 @@ library(ggpmisc)
 
 # Introduction
 
-The study of birds has been a fascinating topic for researchers and the general public alike. One interesting ecological aspect of bird behavior is their diet and how it may impact their physical or morphological characteristics. In particular, we look to answer the question of whether the diet of a bird can be used to predict the shape of its beak. This paper will analyze existing research on the topic and provide insight into the relationship between bird diets and beak shapes. The data we analyze in this study comes from "AVONET: morphological, ecological and geographical data for all birds," a precious study conducted by @tobias2022avonet. By examining various factors that can influence beak shape, we can gain a better understanding of the role that diet plays in this process. Additionally, this analysis will provide valuable information and questions still remaining to be addressed in future studies.
+The study of birds has been a fascinating topic for researchers and the general public alike. One interesting ecological aspect of bird behavior is their diet and how it may impact their physical or morphological characteristics.Past research by @olsen2017feeding and many other researchers have suggested that bird diet plays a large role in beak shape and size. In order to add to these studies, we look to see if there are any other strong predictors of the shape of a birds beak after controlling for its dietary (trophic) niche. This paper will analyze existing research on the topic and provide insight into the relationship between bird diets and beak shapes. The data we analyze in this study comes from "AVONET: morphological, ecological and geographical data for all birds," a precious study conducted by @tobias2022avonet. By examining various factors that can influence beak shape, we can gain a better understanding of the what factors bird influence it after controlling for diet. Additionally, this analysis will provide valuable information and questions still remaining to be addressed in future studies.
 
 # Methods
 
@@ -130,6 +130,12 @@ res1 <- resid(first.model)
 plot(fitted(first.model), res1)
 abline(0,0)
 
+```
+
+
+**Based on this model, changes in tail length, tarsus length, wing length and kipps distance all tend to be associated with changes in beak shape for Carnivores. This means these variables are good predictors of beak shape for Carnivores.**
+
+```{r} 
 #2
 herbivore.data.norm <- subset(data.norm, Trophic.Level == "Herbivore")
 second.model <- lm(herbivore.data.norm$l.w.ratio ~ herbivore.data.norm$Mass + 
@@ -140,7 +146,14 @@ res2 <- resid(second.model)
 
 plot(fitted(second.model), res2)
 abline(0,0)
+```
 
+
+**Based on this model, changes in tail length, tarsus length, wing length and kipps distance all tend to be associated with changes in beak shape for herbivores. This means these variables are good predictors of beak shape for herbivores.**
+
+
+
+```{r}
 #3
 scavenger.data.norm <- subset(data.norm, Trophic.Level == "Scavenger")
 third.model <- lm(scavenger.data.norm$l.w.ratio ~ scavenger.data.norm$Mass + 
@@ -151,7 +164,13 @@ res3 <- resid(third.model)
 
 plot(fitted(third.model), res3)
 abline(0,0)
+```
 
+
+**Based on this model, none of the exaplanatory variables provided have any statistical significance when trying to predict beak shape. This is likely due to the low number of scavengers in the dataset. **
+
+
+``` {r}
 #4
 omnivore.data.norm <- subset(data.norm, Trophic.Level == "Omnivore")
 fourth.model <- lm(omnivore.data.norm$l.w.ratio ~ omnivore.data.norm$Mass + 
@@ -165,6 +184,13 @@ abline(0,0)
 
 ```
 
+
+**Based on this model, changes in Mass, tarsus length, wing length and kipps distance all tend to be associated with changes in beak shape for herbivores. This means these variables are good predictors of beak shape for herbivores. **
+
+<br>
+
+In each of the residual plots created for the regression models above, a great amount of variance in the magnitude of the residuals can be seen, providing evidence for why each regression model has an adjusted multiple R-squared that is lower than 0.15 (residual: the distance away from the mean any specific observation is). This means that beak shape cannot be predicted effectively using the measures of bird mass, tail length, wing length, or kipps distance that our model uses for any of the trophic niches listed above. As a result of the low statistical power of each of these models, we can conclude that none of the statistical models created from the variables in this analysis serve as a good predictor of beak shape. What this tells us from a morphological perspective is that **other bird bodily features are not good predictors of beak shape in birds**. This conclusion is further supported by the large number of observations for carnivores, herbivores, and omnivores, meaning low statistical significance in our model is likely not due to having a small sample size.
+
 # Discussion
 We took an intersectional approach of categorizing bird feeding habits by both their trophic niche and trophic level result in the most concrete evidence for suggesting that beak shape is largely controlled by diet.  
 
@@ -174,7 +200,7 @@ Starting broadly, aquatic predators and nectarivores both had the greatest lengt
 
 According to the data of figure 3b, herbivorous nectarivores, such as the ruby-throated hummingbird, have the greatest length to width ratio among birds, distinctly noted for their needle-like beaks to reach deep into the flower they are feeding from. On the contrary, herbivorous granivores, such as the House Finch have short wide beaks adapted for crushing seeds and grains.  
 
-Furthermore, our data also alleviated that mass has some significance in determining beak shape. While the simultaneous scale-up of beak volume along with body bass was intuitive and expected, little correlation was found between beak shape and body mass. Avian employ a wide range of feeding strategies. Although convergent evolution of beak morphology has been demonstrated in many species that depend on similar food source (@olsen2017feeding), we reason that generalizing shape & body mass relationship on the level of ```Trophic.Level``` as characterized in our data set is too broad of a scope. Further studies could investigate whether birds with similar body mass have similar beak size within one trophic niche, as the eliminated body size variable in this case might lead to similar strategies developed through convergent evolution. 
+Furthermore, our data also alleviated that mass has some significance in determining beak shape. Additionally, the low significance of our models suggested that tail length, tarsus length, wing length and kipps distance did not appear to be great predictors of beak shape (potentially suggesting that the bodily features of birds do not serve as good predictors of beak shpae). While the simultaneous scale-up of beak volume along with body bass was intuitive and expected, little correlation was found between beak shape and body mass. Avian employ a wide range of feeding strategies. Although convergent evolution of beak morphology has been demonstrated in many species that depend on similar food source (@olsen2017feeding), we reason that generalizing shape & body mass relationship on the level of ```Trophic.Level``` as characterized in our data set is too broad of a scope. Further studies could investigate whether birds with similar body mass have similar beak size within one trophic niche, as the eliminated body size variable in this case might lead to similar strategies developed through convergent evolution. Additionally, further studies should analyze more morphological features of birds to investigate if other features may influence beak size more significantly.
 
 # Author Contributions
 
